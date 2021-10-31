@@ -10,6 +10,16 @@ export const getTodosReq = async (body) => {
   }
 };
 
+export const getTodosInfoReq = async () => {
+  try {
+    console.log('getTodosInfo');
+    const resData = await fetchEmul('/todos/info');
+    return resData.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addTodoReq = async (body) => {
   try {
     console.log('getTodosReq');

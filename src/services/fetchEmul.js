@@ -45,7 +45,7 @@ const server = {
 
     dataTodos = [...dataTodos, newTodo];
 
-    return {data: dataTodos};
+    return { data: dataTodos };
   },
 
   '/todo/del': (id) => {
@@ -61,13 +61,13 @@ const server = {
 
     dataTodos = [
       ...dataTodos.slice(0, idx),
-      ...dataTodos.slice(idx+1)
+      ...dataTodos.slice(idx + 1)
     ];
 
-    return {data: id};
+    return { data: id };
   },
 
-  '/todo/edit': ({id, title})=>{
+  '/todo/edit': ({ id, title }) => {
     if (!id) {
       throw new Error('id is require!');
     }
@@ -85,19 +85,19 @@ const server = {
 
     dataTodos = [
       ...dataTodos.slice(0, idx),
-      {...dataTodos[idx], title},
-      ...dataTodos.slice(idx+1)
+      { ...dataTodos[idx], title },
+      ...dataTodos.slice(idx + 1)
     ];
 
-    return {data: dataTodos.find((todo)=>todo.id===id)};
+    return { data: dataTodos.find(todo => todo.id === id) };
   },
 
-  '/todo/check': ({id, isFinish})=>{
+  '/todo/check': ({ id, isFinish }) => {
     if (!id) {
       throw new Error('id is require!');
     }
 
-    if (isFinish===undefined || typeof isFinish !== 'boolean') {
+    if (isFinish === undefined || typeof isFinish !== 'boolean') {
 
       throw new Error('isFinish is require!');
     }
@@ -110,19 +110,29 @@ const server = {
 
     dataTodos = [
       ...dataTodos.slice(0, idx),
-      {...dataTodos[idx], isFinish},
-      ...dataTodos.slice(idx+1)
+      { ...dataTodos[idx], isFinish },
+      ...dataTodos.slice(idx + 1)
     ];
-    
-    return {data: dataTodos.find((todo)=>todo.id===id)};
+
+    return { data: dataTodos.find(todo => todo.id === id) };
+  },
+
+  '/todos/info': () => {
+    return {
+      data:{
+        count: dataTodos.length,
+        countCompleted: dataTodos.filter(todo =>todo.isFinish===true).length,
+        countUnfinished: dataTodos.filter(todo =>todo.isFinish===false).length
+      }
+    };
   }
 }
 
-const getDelay = ()=>{
+const getDelay = () => {
   const min = 0.5;
   const max = 2.6;
   const rnd = (min + Math.random() * (max - min)).toFixed(1);
-  return rnd*1000;
+  return rnd * 1000;
 }
 
 export const fetchEmul = (path, body) => {

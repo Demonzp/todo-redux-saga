@@ -15,7 +15,6 @@ const TodoItem = ({ todo, i }) => {
   }
 
   const handleChackbox = (e)=>{
-    //console.log(e.target.checked);
     onCheckTodo({id: todo.id, isFinish: e.target.checked});
   }
 
@@ -35,7 +34,7 @@ const TodoItem = ({ todo, i }) => {
               </div>
               <div style={cell}>
                 <button onClick={handleEdit}>Edit</button>
-                <button onClick={() => onDelTodo(todo.id)}>Delete</button>
+                <button onClick={() => onDelTodo(todo)}>Delete</button>
               </div>
             </Fragment>
         }

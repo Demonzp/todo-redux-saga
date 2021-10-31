@@ -1,6 +1,7 @@
 import { takeEvery, takeLatest, put } from 'redux-saga/effects'
-import { addTodoReq, checkTodoReq, delTodoReq, editTodoReq, getTodosReq } from '../../services.js/todoFetch';
+import { addTodoReq, checkTodoReq, delTodoReq, editTodoReq, getTodosReq } from '../../services/todoFetch';
 import { ADD_TODO, CHANGE_PAGE_TODOS, DEL_TODO, FETCH_TODOS, SET_IS_LOADING_TODO, SET_IS_LOADING_TODOS, SET_TODOS, FETCH_EDIT_TODO, EDIT_TODO, CHECK_TODO, FETCH_CHECK_TODO } from '../reducers/todos';
+import { addTodoInfo, delTodoInfo } from './todosInfo';
 
 let crutchPage = 0;
 
@@ -50,6 +51,7 @@ const getTodos = function* ({payload}) {
 const addTodo = function* ({payload}){
   try {
     yield addTodoReq(payload);
+    yield addTodoInfo();
     yield forceTodos();
   } catch (error) {
     console.error('error = ', error.message);
@@ -60,8 +62,9 @@ const addTodo = function* ({payload}){
 
 const delTodo = function* ({payload}){
   try {
-    yield setLoadingTodo({id: payload, isLoading: true});
-    yield delTodoReq(payload);
+    yield setLoadingTodo({id: payload.id, isLoading: true});
+    yield delTodoReq(payload.id);
+    yield delTodoInfo(payload.isFinish);
     yield forceTodos();
     return true;
   } catch (error) {
