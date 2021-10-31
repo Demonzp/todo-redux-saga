@@ -1,7 +1,5 @@
 import { createId } from './global';
 
-const DELAY = 1.5 * 1000;
-
 let dataTodos = [
   {
     id: 1,
@@ -120,6 +118,13 @@ const server = {
   }
 }
 
+const getDelay = ()=>{
+  const min = 0.5;
+  const max = 2.6;
+  const rnd = (min + Math.random() * (max - min)).toFixed(1);
+  return rnd*1000;
+}
+
 export const fetchEmul = (path, body) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -128,6 +133,6 @@ export const fetchEmul = (path, body) => {
       } catch (error) {
         reject(error);
       }
-    }, DELAY);
+    }, getDelay());
   });
 }
