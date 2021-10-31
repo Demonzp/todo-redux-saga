@@ -1,6 +1,7 @@
 const initialState = {
   todos: [],
   isLoading: false,
+  isLoaded: false,
   pages: 0,
   page: 1
 };
@@ -26,6 +27,7 @@ const todos = (state = initialState, action) => {
         ...state,
         todos: payload.todos,
         pages: payload.pages,
+        isLoaded: true,
         isLoading: false
       };
     }

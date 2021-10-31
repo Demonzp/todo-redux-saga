@@ -2,35 +2,45 @@ import { Fragment, useEffect, useState } from 'react';
 
 const SimplePaginator = ({pages, onPage=()=>{}, forcePage})=>{
   const [page, setPage] = useState(1);
+  const [isOnPage, setIsOnPage] = useState(false);
 
   useEffect(()=>{
-    onPage(page);
-  }, [page]);
+    if(isOnPage){
+      onPage(page);
+      setIsOnPage(false);
+    }
+  }, [page, isOnPage]);
 
   useEffect(()=>{
-    if(Number.isInteger(forcePage)){
+    if(Number.isInteger(forcePage) && forcePage!==page){
       setPage(forcePage);
     }
   }, [forcePage]);
 
   const handlePrev = ()=>{
+    let isOn = true;
     setPage(prev=>{
       if(prev-1<1){
+        isOn = false;
         return prev;
       }else{
         return prev-1;
       }
     });
+    setIsOnPage(isOn);
   };
 
   const handleNext = ()=>{
+    let isOn = true;
     setPage(prev=>{
       if(prev+1>pages){
+        isOn = false;
         return prev;
       }else{
         return prev+1;
       }
     });
+    setIsOnPage(isOn);
   }
 
   return(

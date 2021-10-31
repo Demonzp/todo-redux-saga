@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ADD_TODO, CHANGE_PAGE_TODOS, DEL_TODO, FETCH_CHECK_TODO, FETCH_EDIT_TODO } from '../state/reducers/todos';
+import { ADD_TODO, CHANGE_PAGE_TODOS, DEL_TODO, FETCH_CHECK_TODO, FETCH_EDIT_TODO, FETCH_TODOS } from '../state/reducers/todos';
 import { action } from '../state/store';
 
 const useTodoList = ()=>{
-  const {todos, page, isLoading, pages} = useSelector(state=>state.todos);
+  const {todos, page, isLoading, pages, isLoaded} = useSelector(state=>state.todos);
+
+  useEffect(()=>{
+    if(!isLoaded && !isLoading){
+      onPage(page);
+    }
+  }, [isLoaded, isLoading]);
 
   const onPage = (p)=>{
     action(CHANGE_PAGE_TODOS, p);
