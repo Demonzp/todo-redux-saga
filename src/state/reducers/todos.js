@@ -27,6 +27,7 @@ const todos = (state = initialState, action) => {
         ...state,
         todos: payload.todos,
         pages: payload.pages,
+        page: payload.page,
         isLoaded: true,
         isLoading: false
       };

@@ -24,6 +24,12 @@ const getTodos = function* ({payload}) {
   try {
     const res = yield getTodosReq(payload);
 
+    if(res.todos.length<=0 && payload>1){
+      crutchPage = payload-1;
+      yield forceTodos();
+      return;
+    }
+
     res.todos = res.todos.map(todo=>{
       return {
         ...todo,
@@ -33,7 +39,7 @@ const getTodos = function* ({payload}) {
 
     crutchPage = payload;
 
-    yield put({ type: SET_TODOS, payload: res });
+    yield put({ type: SET_TODOS, payload: {...res, page: crutchPage} });
   } catch (error) {
     console.error('error = ', error.message);
     alert(error.message);

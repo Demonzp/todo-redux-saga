@@ -2,6 +2,7 @@ import { fetchEmul } from "./fetchEmul"
 
 export const getTodosReq = async (body) => {
   try {
+    console.log('getTodosReq');
     const resData = await fetchEmul('/todos', body);
     return resData.data;
   } catch (error) {
@@ -11,6 +12,7 @@ export const getTodosReq = async (body) => {
 
 export const addTodoReq = async (body) => {
   try {
+    console.log('getTodosReq');
     const resData = await fetchEmul('/todo/add', body);
     return resData.data;
   } catch (error) {
@@ -20,6 +22,7 @@ export const addTodoReq = async (body) => {
 
 export const delTodoReq = async (body) => {
   try {
+    console.log('getTodosReq');
     const resData = await fetchEmul('/todo/del', body);
     return resData.data;
   } catch (error) {
@@ -29,6 +32,7 @@ export const delTodoReq = async (body) => {
 
 export const editTodoReq = async (body) => {
   try {
+    console.log('getTodosReq');
     const resData = await fetchEmul('/todo/edit', body);
     return resData.data;
   } catch (error) {
@@ -38,6 +42,7 @@ export const editTodoReq = async (body) => {
 
 export const checkTodoReq = async (body) => {
   try {
+    console.log('getTodosReq');
     const resData = await fetchEmul('/todo/check', body);
     return resData.data;
   } catch (error) {
