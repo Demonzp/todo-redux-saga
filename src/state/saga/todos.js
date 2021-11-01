@@ -70,7 +70,7 @@ const delTodo = function* ({payload}){
   } catch (error) {
     console.error('error = ', error.message);
     alert(error.message);
-    yield setLoadingTodo({id: payload, isLoading: false});
+    yield setLoadingTodo({id: payload.id, isLoading: false});
   }
 }
 
