@@ -1,4 +1,4 @@
-import { put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { put, call, takeLatest, takeEvery } from 'redux-saga/effects';
 import { getTodosInfoReq } from '../../services/todoFetch';
 import { CHECK_TODO } from '../reducers/todos';
 import { ADD_COMPLETED_TODOS, ADD_COUNT_TODOS, ADD_UNFINISHED_TODOS, DEL_COMPLETED_TODOS, DEL_COUNT_TODOS, DEL_UNFINISHED_TODOS, FETCH_TODOS_INFO, SET_IS_LOADING_INFO, SET_TODOS_INFO } from '../reducers/todosInfo';
@@ -12,51 +12,51 @@ const setLoaded = function* () {
 }
 
 const changeTodos = function* (isAdd) {
-  if(isAdd){
-    yield put({ type: ADD_COUNT_TODOS});
-  }else{
-    yield put({type: DEL_COUNT_TODOS});
+  if (isAdd) {
+    yield put({ type: ADD_COUNT_TODOS });
+  } else {
+    yield put({ type: DEL_COUNT_TODOS });
   }
 }
 
 const changeUnfinished = function* (isFinish) {
-  if(isFinish){
-    yield put({type: DEL_UNFINISHED_TODOS});
-  }else{
-    yield put({type: ADD_UNFINISHED_TODOS});
+  if (isFinish) {
+    yield put({ type: DEL_UNFINISHED_TODOS });
+  } else {
+    yield put({ type: ADD_UNFINISHED_TODOS });
   }
 }
 
 const changeCompleted = function* (isFinish) {
-  if(isFinish){
-    yield put({type: ADD_COMPLETED_TODOS});
-  }else{
-    yield put({type: DEL_COMPLETED_TODOS});
+  if (isFinish) {
+    yield put({ type: ADD_COMPLETED_TODOS });
+  } else {
+    yield put({ type: DEL_COMPLETED_TODOS });
   }
 }
 
-const computeCheckTodo = function* ({payload}){
+const computeCheckTodo = function* ({ payload }) {
   yield changeCompleted(payload.isFinish);
   yield changeUnfinished(payload.isFinish);
 }
 
-export const addTodoInfo = function* (){
+export const addTodoInfo = function* () {
   yield changeTodos(true);
 }
 
-export const delTodoInfo = function* (isFinish){
+export const delTodoInfo = function* (isFinish) {
   yield changeTodos(false);
-  if(isFinish){
+  if (isFinish) {
     yield changeCompleted(false);
-  }else{
+  } else {
     yield changeUnfinished(true);
   }
-   
+
 }
 
 const getTodosInfo = function* () {
   try {
-    const info = yield getTodosInfoReq();
+    const info = yield call(() => getTodosInfoReq());
 
     yield put({
       type: SET_TODOS_INFO, payload: {
@@ -76,6 +76,6 @@ export function* watcherTodosInfo() {
   yield takeLatest(FETCH_TODOS_INFO, getTodosInfo);
 }
 
-export function* watcherTodosCheck(){
+export function* watcherTodosCheck() {
   yield takeEvery(CHECK_TODO, computeCheckTodo);
 }
